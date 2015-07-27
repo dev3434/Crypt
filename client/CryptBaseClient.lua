@@ -26,7 +26,7 @@ function toDec(bits)
 	end
 	return result
 end
-function Crypt34(str)
+function Crypt(str)
 	str = tostring(str)
 	local ciphert = {}
 	for c in cipher:gmatch(".") do table.insert(ciphert,c) end
@@ -47,7 +47,7 @@ function Crypt34(str)
 	end
 	return table.concat(block)
 end
-class 'CiBase' 
+class 'CiBase'
 function CiBase:__init()
 if LocalPlayer:GetValue("SecCGlobal") ~= nil then
 	cipher = LocalPlayer:GetValue("SecCGlobal")
