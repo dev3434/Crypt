@@ -47,7 +47,43 @@ function Crypt(str)
 	end
 	return table.concat(block)
 end
-class 'CiBase'
+function CryptVec(str)
+	local ciphert = {}
+	local vec = {}
+	local vtype = 1
+	local vect = 0
+	for c in cipher:gmatch(".") do table.insert(ciphert,c) end
+	local block = {}
+	for ch in str:gmatch(".") do
+		local c = toBits(string.byte(ch))
+		table.insert(block,c)
+	end
+	for i = 1,#block do
+		local bitt = {}
+		local bit = block[i]
+		for c in bit:gmatch(".") do table.insert(bitt,c) end
+		local result = {}
+		for i = 1,8,1 do
+			table.insert(result,xor(ciphert[i],bitt[i]))
+		end
+		block[i] = string.char(toDec(table.concat(result)))
+	end
+	local raw = table.concat(block)
+	for i in string.gmatch(raw, "%,") do vtype = vtype + 1 end
+	for i = 1,vtype do
+		vec[i] = tonumber(string.match(raw, '%-?%d+'))
+		raw = string.gsub(raw, '%d+', "", 1)
+		raw = string.gsub(raw, '%,', "", 1)
+		raw = string.gsub(raw, '%d+', "", 1)
+	end
+	if vtype == 2 then
+		vect = Vector2(vec[1], vec[2])
+	elseif vtype == 3 then
+		vect = Vector3(vec[1], vec[2], vec[3])
+	end
+	return vect
+end
+class 'CiBase' 
 function CiBase:__init()
 if LocalPlayer:GetValue("SecCGlobal") ~= nil then
 	cipher = LocalPlayer:GetValue("SecCGlobal")
